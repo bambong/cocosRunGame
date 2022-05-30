@@ -45,7 +45,7 @@ Generated Files
 AppPackages
 BundleArtifacts
 .vs/
-
+./.vs/
 # Ignore files build by ndk and eclipse
 libs/
 bin/
