@@ -42,10 +42,10 @@
     <ClCompile Include="..\Classes\Obstacle.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenuScene.cpp">
+    <ClCompile Include="..\Classes\CutScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\CutScene.cpp">
+    <ClCompile Include="..\Classes\MainMenuScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
