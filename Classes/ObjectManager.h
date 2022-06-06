@@ -2,10 +2,29 @@
 #include "Item.h"
 #include "Obstacle.h"
 
+#include <string>
+#include <sstream>
 #include "cocos2d.h"
 
+using namespace std;
 USING_NS_CC;
 
+
+enum E_ObjectType
+{
+	TypeObstacle = 0,
+	TypePlatform,
+	TypeItem
+};
+class ObjectData 
+{
+public :
+	ObjectData(E_ObjectType a,int num ,float X,float Y):objectType(a),typeNum(num),x(X),y(Y){}
+	E_ObjectType objectType;
+	int typeNum;
+	float x;
+	float y;
+};
 
 enum E_OBSTACLE_TYPE
 {
@@ -25,11 +44,17 @@ public:
 		}
 		return instance;
 	}
+	float clearPosX = 0;
 	Vector<ContactAbleObject*> moveUpdateList;
-	void MoveUpdate(float t);
+	void LoadMapData();
+	vector<string> objectSplitData;
+	vector<ObjectData*> objectDatas;
+	void SpawnMap(Scene* scene , float speed);
+	void MoveUpdate(float t, float speed);
 	void RemoveItem(ContactAbleObject* item);
 	void MakeItem(Vec2 pos, float speed , Scene* scene);
-	void MakeObstacle(Vec2 pos, float speed, Scene* scene , E_OBSTACLE_TYPE obstacleType);
-	void MakePlatform(Vec2 pos, float speed, float width, float height, Scene* scene);
+	void MakeObstacle(Vec2 pos, float speed, Scene* scene , int typeNum);
+	void MakePlatform(Vec2 pos, float speed, Scene* scene , int typeNum);
+	vector<string> split(string str, char Delimiter);
 };
 

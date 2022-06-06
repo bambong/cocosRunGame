@@ -6,6 +6,7 @@ Player::Player()
 
 void Player::Init(Scene* scene)
 {
+	
 	playerRunAnim = Animation::create();
 	playerHitAnim = Animation::create();
 	playerJumpAnim = Animation::create();
@@ -16,7 +17,8 @@ void Player::Init(Scene* scene)
 	
 	instance = Sprite::createWithSpriteFrameName("run_3.png"); 
 	instance->setZOrder(3);
-	
+	//instance->setAnchorPoint(Vec2::ZERO);
+
 	phyBody = PhysicsBody::createBox(instance->getContentSize(),PhysicsMaterial(1,0,1));
 	phyBody->setCollisionBitmask(PLAYER_BITMASK);
 	phyBody->setContactTestBitmask(true);
@@ -47,7 +49,7 @@ void Player::PlayerRun(CallFunc* call)
 	PlayerRunAnimPlay();
 	//PlayerJumpAnimPlay();
 	//PlayerHitAnimPlay();
-	auto moveAction = MoveTo::create(4,Vec2(400, 200));
+	auto moveAction = MoveBy::create(6,Vec2(372 + instance->getContentSize().width/2,0));
 	auto seq = Sequence::create(moveAction, call, NULL);
 	instance->runAction(seq);
 

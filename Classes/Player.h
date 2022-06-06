@@ -9,7 +9,7 @@ USING_NS_CC;
 class Player
 {
 private :
-	float const JumpPow = 200;
+	float const JumpPow = 170;
 public : 	
 		Sprite* instance;
 		Animate playerAnimate;

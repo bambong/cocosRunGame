@@ -12,13 +12,19 @@ USING_NS_CC;
 class HelloWorld : public cocos2d::Scene
 {
 public:
+
+    static HelloWorld* instance;
+    static HelloWorld* GetInstance() {
+        return instance;
+    }
     static cocos2d::Scene* createScene();
     const float DecreaseHpAmount = 1;
     const float initHp = 100;
-    const float ForgroundMoveSpeed = 200;
+    const float ForgroundMoveSpeed = 300;
     
     bool isJumping;
     bool isDead;
+    bool isClear;
     float curHp;
    
     ObjectManager* objectManager;
@@ -31,8 +37,12 @@ public:
     BackGroundController* background2;
     
     Sequence* jumpActionSeq;
-    Sprite* platform;
   
+    Sprite* testBack_back;
+    Sprite* testBack_cloud;
+    Sprite* testBack_ground;
+
+    void OnClear();
     void OnGameOver();
     void HpBarUpdate();
     void UpdateHp(float f);

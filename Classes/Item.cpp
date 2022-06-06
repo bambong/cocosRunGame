@@ -8,6 +8,7 @@ void Item::OnOutOfCamera()
 }
 void Item::Init(Vec2 pos ,float speed)
 {
+	setAnchorPoint(Vec2::ZERO);
 	this->speed = speed;
 	//this->scene = scene;
 	//this->create("Progress-Bar.png");

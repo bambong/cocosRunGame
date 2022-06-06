@@ -3,6 +3,7 @@
 
 void Obstacle::Init(Vec2 pos, float speed)
 {
+	setAnchorPoint(Vec2::ZERO);
 	this->speed = speed;
 	setPosition(pos);
 	auto body = PhysicsBody::createBox(getContentSize(), PhysicsMaterial(1, 0, 0));

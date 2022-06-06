@@ -1,5 +1,6 @@
 #include "MainMenuScene.h"
 #include "HelloWorldScene.h"
+#include "ObjectManager.h"
 cocos2d::Scene* MainMenuScene::createScene()
 {
 	return MainMenuScene::create();
@@ -7,15 +8,23 @@ cocos2d::Scene* MainMenuScene::createScene()
 
 bool MainMenuScene::init()
 {
-	auto background_back = Sprite::create("country-platform-back.png");
-	auto background_front = Sprite::create("country-platform-tiles-example.png");
-	SetSpriteScaleByFixelWidth(background_back, 1600);
-	SetSpriteScaleByFixelWidth(background_front, 1600);
+	ObjectManager::GetInstance()->LoadMapData();
+
+	auto background_back = Sprite::create("background.png");
+	auto background_cloud = Sprite::create("background_cloud.png");
+	auto background_front = Sprite::create("platform0.png");
+	auto background_layer = Sprite::create("black_background.png");
+	background_layer->setOpacity(125);
+	//SetSpriteScaleByFixelWidth(background_back, 1600);
+	//SetSpriteScaleByFixelWidth(background_front, 1600);
 	background_back->setAnchorPoint(Vec2(0, 0));
+	background_cloud->setAnchorPoint(Vec2(0, 0));
+	background_layer->setAnchorPoint(Vec2(0, 0));
 	background_front->setAnchorPoint(Vec2(0, 0));
 	this->addChild(background_back);
+	this->addChild(background_cloud);
 	this->addChild(background_front);
-
+	this->addChild(background_layer);
 	auto playerReady = Sprite::create("player-ready.png");
 	SetSpriteScaleByFixel(playerReady,505,760);
 	playerReady->setAnchorPoint(Vec2(0, 0));

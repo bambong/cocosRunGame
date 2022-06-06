@@ -7,16 +7,18 @@
 
 USING_NS_CC;
 
+HelloWorld* HelloWorld::instance = NULL;
 Scene* HelloWorld::createScene()
 {
     auto scene = Scene::createWithPhysics();
-    scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+   //scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
     scene->getPhysicsWorld()->setSpeed(8);
     scene->getPhysicsWorld()->setGravity(Vec2(0, -35));
    
     auto layer = HelloWorld::create();
     layer->SetPhysicsWorld(scene->getPhysicsWorld());
     scene->addChild(layer);
+    instance = layer;
     return scene;
 }
 
@@ -40,7 +42,7 @@ bool HelloWorld::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
-
+     
  
     curHp = initHp;
     auto hpBarBack = Sprite::create("Progress-Bar_Outside.png");
@@ -89,47 +91,56 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
     menu->setVisible(false);
+    menu->setZOrder(10);
     isJumping = true;
 
 
   //////////////////BackGround//////////////
-    
+   
+    testBack_back = Sprite::create("background.png");
+    testBack_back->setAnchorPoint(Vec2(0, 0));
+    this->addChild(testBack_back);
+
     background1 = new BackGroundController();
     background2 = new BackGroundController();
- 
-    background2->Init("country-platform-back.png", "country-platform-back.png", 1600, 50, this);
-    background1->Init("country-platform-tiles-example.png", "country-platform-tiles-example.png", 1600, 500, this);
+    
+   
+
+    background2->Init("background_cloud.png", "background_cloud.png", ForgroundMoveSpeed-60, this);
+    background1->Init("platform0.png", "platform0.png", ForgroundMoveSpeed, this);
     this->scheduleUpdate();
+  
 
     
     /////////////platformtest/////////
 
+     ////////////GROUND////////////////
 
+    auto body = PhysicsBody::createEdgeBox(Size(visibleSize.width + 700, 59), PHYSICSBODY_MATERIAL_DEFAULT);
+    auto node = Node::create();
+    node->setPosition(Vec2(visibleSize.width / 2, 29.5f));
+    body->setCollisionBitmask(GROUND);
+    body->setContactTestBitmask(true);
+    node->setPhysicsBody(body);
+    this->addChild(node);
+
+    /////////////////////////////////
 
     ////////////////////////////////////
 
     player = new Player();
     player->Init(this);
-    player->instance->setPosition(-200,200);
+    player->instance->setPosition(-400,300);
     player->PlayerRun(CallFunc::create([=]() { 
         menu->setVisible(true);
         isJumping = false; }));
 
-    SetSpriteScaleByFixelWidth(player->instance, 150);
+    SetSpriteScaleByFixel(player->instance, 176, 285);
+    //SetSpriteScaleByFixelWidth(player->instance, 285);
     player->instance->setScaleX(-player->instance->getScaleX());
    
     
-    ////////////GROUND////////////////
-
-    auto body = PhysicsBody::createEdgeBox(Size(visibleSize.width+700,100), PHYSICSBODY_MATERIAL_DEFAULT);
-    auto node = Node::create();
-    node->setPosition(Vec2(visibleSize.width/2,50));
-    body->setCollisionBitmask(GROUND);
-    body->setContactTestBitmask(true);
-    node->setPhysicsBody(body);
-    this->addChild(node);
-    
-    /////////////////////////////////
+   
     
     
     
@@ -141,10 +152,8 @@ bool HelloWorld::init()
 
     objectManager = ObjectManager::GetInstance();
     
-    objectManager->MakeItem(Vec2(visibleSize.width, 200), ForgroundMoveSpeed, this);
-    objectManager->MakeObstacle(Vec2(visibleSize.width+100, 200), ForgroundMoveSpeed, this , E_OBSTACLE_TYPE::OBSTACLE_TYPE_1);
-    objectManager->MakeObstacle(Vec2(visibleSize.width+300, 200), ForgroundMoveSpeed, this , E_OBSTACLE_TYPE::OBSTACLE_TYPE_1);
-    objectManager->MakePlatform(Vec2(300, 500), ForgroundMoveSpeed, 300, 100, this);
+    objectManager->instance->SpawnMap(this, ForgroundMoveSpeed);
+   
    // auto testItem = Item::Create("Progress-Bar.png");
    // testItem->Init(Vec2(visibleSize.width, 200), ForgroundMoveSpeed);
    //// testItem->GetSprite()->setPosition(visibleSize.width,100);
@@ -159,6 +168,20 @@ bool HelloWorld::init()
     return true;
 }
 
+
+void HelloWorld::OnClear()
+{
+    if (isClear)
+    {
+        return;
+    }
+    isClear = true;
+
+    auto moveBy = MoveBy::create(3,Vec2(Director::getInstance()->getVisibleSize().width, 0));
+    auto call = CallFunc::create(CC_CALLBACK_0(HelloWorld::OnGameOver, this));
+    auto seq = Sequence::create(moveBy, call, NULL);
+    player->instance->runAction(seq);
+}
 
 void HelloWorld::OnGameOver()
 {
@@ -257,10 +280,21 @@ void HelloWorld::update(float delta)
         return;
     }
     
+    objectManager->MoveUpdate(delta,ForgroundMoveSpeed);
+    
+    if (isClear)
+    {
+        return;
+    }
 
     UpdateHp(delta);
-    objectManager->MoveUpdate(delta);
     
+    auto forSpeed = delta * ForgroundMoveSpeed;
+    auto cloudSpeed = delta * (ForgroundMoveSpeed-20);
+   // auto backSpeed = delta * (ForgroundMoveSpeed-30);
+   // testBack_back->setPositionX(testBack_back->getPosition().x - forSpeed);
+    //testBack_cloud->setPositionX(testBack_cloud->getPosition().x - cloudSpeed);
+    //testBack_ground->setPositionX(testBack_ground->getPosition().x - forSpeed);
     background1->MoveUpdate(delta);
     background2->MoveUpdate(delta);
 }

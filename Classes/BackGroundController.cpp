@@ -1,6 +1,6 @@
 #include "BackGroundController.h"
 
-void BackGroundController::Init(char* bg1, char* bg2,float widthSize, float speed, Scene* scene)
+void BackGroundController::Init(char* bg1, char* bg2, float speed, Scene* scene)
 {
 
 	/*auto node = ParallaxNode::create(); 
@@ -18,7 +18,8 @@ void BackGroundController::Init(char* bg1, char* bg2,float widthSize, float spee
 	backGround1->getTexture()->setAliasTexParameters();
 	backGround2->getTexture()->setAliasTexParameters();
 
-	SetSpriteScaleByFixelWidth(widthSize);
+	widthSize = backGround1->getContentSize().width;
+	//SetSpriteScaleByFixelWidth(widthSize);
 	backGround1->setAnchorPoint(Vec2::ZERO);
 	backGround2->setAnchorPoint(Vec2::ZERO);	
 	backGround2->setPosition(widthSize-0.5f, 0);

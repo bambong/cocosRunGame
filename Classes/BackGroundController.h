@@ -9,7 +9,7 @@ class BackGroundController
 		Sprite* backGround2;
 		float speed;
 		float widthSize;
-		void Init(char* bg1,char* bg2 ,float widthSize ,float speed,Scene* scene);
+		void Init(char* bg1,char* bg2,float speed,Scene* scene);
 		void MoveUpdate(float t);
 		void SetSpriteScaleByFixelWidth(float x);
 

@@ -1,7 +1,9 @@
 #include "Platform.h"
+#include "ObjectManager.h"
 
 void Platform::Init(Vec2 pos, float speed)
 {
+	setAnchorPoint(Vec2::ZERO);
 	this->speed = speed;
 	setPosition(pos);
 	auto body = PhysicsBody::createBox(getContentSize(), PhysicsMaterial(1, 0, 0));
@@ -25,7 +27,7 @@ Platform* Platform::Create(const std::string& filename)
 
 void Platform::OnOutOfCamera()
 {
-	setPosition(1000, getPosition().y);
+	ObjectManager::GetInstance()->RemoveItem(this);
 }
 
 
