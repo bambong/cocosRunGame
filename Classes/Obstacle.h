@@ -7,6 +7,6 @@ public:
 	void Init(Vec2 pos, float speed);
 	virtual void Active();
 	virtual void OnOutOfCamera();
-	static Obstacle* Obstacle::Create(const std::string& filename);
+	static Obstacle* Create(const std::string& filename);
 };
 

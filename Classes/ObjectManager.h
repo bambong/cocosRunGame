@@ -46,6 +46,8 @@ public:
 	}
 	float clearPosX = 0;
 	Vector<ContactAbleObject*> moveUpdateList;
+	int MyStoi(string str);
+	float MyStof(string str);
 	void LoadMapData();
 	vector<string> objectSplitData;
 	vector<ObjectData*> objectDatas;

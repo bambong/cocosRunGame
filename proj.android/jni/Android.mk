@@ -13,6 +13,16 @@ LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AppDelegate.cpp \
+                   ../../Classes/BackGroundController.cpp \
+                   ../../Classes/ContactAbleObject.cpp \
+                   ../../Classes/CutScene.cpp \
+                   ../../Classes/Item.cpp \
+                   ../../Classes/MainMenuScene.cpp \
+                   ../../Classes/ObjectManager.cpp \
+                   ../../Classes/ObjectManager.cpp \
+                   ../../Classes/Obstacle.cpp \
+                   ../../Classes/Player.cpp \
+                   ../../Classes/Platform.cpp \
                    ../../Classes/HelloWorldScene.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
@@ -20,6 +30,7 @@ LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 # _COCOS_HEADER_ANDROID_BEGIN
 # _COCOS_HEADER_ANDROID_END
 
+LOCAL_LDFLAGS := -Wl,--allow-multiple-definition
 
 LOCAL_STATIC_LIBRARIES := cocos2dx_static
 
@@ -32,3 +43,4 @@ $(call import-module,.)
 
 # _COCOS_LIB_IMPORT_ANDROID_BEGIN
 # _COCOS_LIB_IMPORT_ANDROID_END
+

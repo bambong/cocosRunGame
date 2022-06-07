@@ -6,7 +6,7 @@ class Platform : public ContactAbleObject
 {
 public:
 	void Init(Vec2 pos, float speed);
-	static Platform* Platform::Create(const std::string& filename);
+	static Platform* Create(const std::string& filename);
 	virtual void OnOutOfCamera();
 };
 

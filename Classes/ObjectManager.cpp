@@ -1,3 +1,4 @@
+ï»¿#pragma once
 #include "ObjectManager.h"
 #include "Platform.h"
 #include "HelloWorldScene.h"
@@ -5,15 +6,47 @@
 
 ObjectManager* ObjectManager::instance = NULL;
 
+int ObjectManager::MyStoi(string str)
+{ 
+	int sum = 0;
+	for (auto s : str)
+	{
+		sum += (s - '0');
+	}
+	return sum; 
+}
+
+float ObjectManager::MyStof(string str)
+{
+	float sum = 0;
+
+		int i = str.length() - 1;
+		for (auto s : str)
+		{
+			auto num = (s - '0');
+
+			for(int j =0 ; j< i;++j)
+			{
+				num *= 10;
+			}
+			sum += num;
+			i--;
+		}
+	
+	return sum;
+}
 void ObjectManager::LoadMapData()
 {
 	auto mFiledata = FileUtils::getInstance()->getDataFromFile("MapData.dat");
 	//FILE* fp = fopen(filePath.c_str(), "rt");
 	char* pBytes = (char*)mFiledata.getBytes();
-	// ¹Ş¾Æ¿Â °ªÀ» int°ª¿¡ ÀúÀå
-	// stringÀ¸·Î º¯È¯ÇÏ¿© Ãâ·Â
+	// ë°›ì•„ì˜¨ ê°’ì„ intê°’ì— ì €ì¥
+	// stringìœ¼ë¡œ ë³€í™˜í•˜ì—¬ ì¶œë ¥
 	std::string re(pBytes);
+	
 	re.erase(remove(re.begin(), re.end(), '\r'),re.end());
+	//re = "platform 1 1588,267\nplatform 1 4245,441\nplatform 2 617,429\nplatform 2 2290,273\nplatform 2 4959,429\nplatform 4 58,242\nplatform 5 3396,450\nplatform 5 3856,264\nobstacle 1 88, 146\nobstacle 2 769, 612\nobstacle 3 1330,622\nobstacle 4 1742,168\nobstacle 5 2382,181\nobstacle 7 3329,617\nobstacle 6 3865,161\nobstacle 8 4334,595\nobstacle 9 4586,586\nobstacle 10 4835,583\nobstacle 11 5074,595\nobstacle 12 5325,588";
+
 	vector<string> objectSplitData = split(re, '\n');
 	objectSplitData.pop_back();
 	try {
@@ -25,26 +58,26 @@ void ObjectManager::LoadMapData()
 			E_ObjectType type;
 			auto dataIter = objectDataStr.begin();
 			auto typeStr = (*dataIter);
-			if (typeStr._Equal("obstacle"))
+			if (typeStr == "obstacle")
 			{
 				type = E_ObjectType::TypeObstacle;
 			}
-			else if (typeStr._Equal("platform"))
+			else if (typeStr == "platform")
 			{
 				type = E_ObjectType::TypePlatform;
 			}
-			else if (typeStr._Equal("item"))
+			else if (typeStr == "item")
 			{
 				type = E_ObjectType::TypeItem;
 			}
 			dataIter++;
-			auto num = stoi((*dataIter));
+			auto num = MyStoi((*dataIter));
 			dataIter++;
 			auto posData = split((*dataIter), ',');
 			auto posIter = posData.begin();
-			auto x = stof(*posIter);
+			auto x = MyStof(*posIter);
 			posIter++;
-			auto y = visibleSize.height - stof(*posIter);
+			auto y = visibleSize.height - MyStof(*posIter);
 
 			auto temp = new ObjectData(type, num, x, y);
 			objectDatas.push_back(temp);
@@ -187,8 +220,6 @@ void ObjectManager::MakeObstacle(Vec2 pos, float speed, Scene* scene, int typeNu
 void ObjectManager::MakePlatform(Vec2 pos, float speed, Scene* scene, int typeNum)
 {
 	Platform* platform;
-
-
 	platform = Platform::Create(StringUtils::format("platform_%d.png",typeNum));
 	platform->Init(pos, speed);
 	moveUpdateList.pushBack(platform);
@@ -196,14 +227,14 @@ void ObjectManager::MakePlatform(Vec2 pos, float speed, Scene* scene, int typeNu
 }
 
 vector<string> ObjectManager::split(string str, char Delimiter) {
-	istringstream iss(str);             // istringstream¿¡ strÀ» ´ã´Â´Ù.
-	string buffer;                      // ±¸ºĞÀÚ¸¦ ±âÁØÀ¸·Î Àı»èµÈ ¹®ÀÚ¿­ÀÌ ´ã°ÜÁö´Â ¹öÆÛ
+	istringstream iss(str);             // istringstreamì— strì„ ë‹´ëŠ”ë‹¤.
+	string buffer;                      // êµ¬ë¶„ìë¥¼ ê¸°ì¤€ìœ¼ë¡œ ì ˆì‚­ëœ ë¬¸ìì—´ì´ ë‹´ê²¨ì§€ëŠ” ë²„í¼
 
 	vector<string> result;
 
-	// istringstreamÀº istreamÀ» »ó¼Ó¹ŞÀ¸¹Ç·Î getlineÀ» »ç¿ëÇÒ ¼ö ÀÖ´Ù.
+	// istringstreamì€ istreamì„ ìƒì†ë°›ìœ¼ë¯€ë¡œ getlineì„ ì‚¬ìš©í•  ìˆ˜ ìˆë‹¤.
 	while (getline(iss, buffer, Delimiter)) {
-		result.push_back(buffer);               // Àı»èµÈ ¹®ÀÚ¿­À» vector¿¡ ÀúÀå
+		result.push_back(buffer);               // ì ˆì‚­ëœ ë¬¸ìì—´ì„ vectorì— ì €ì¥
 	}
 
 	return result;

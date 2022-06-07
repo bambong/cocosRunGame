@@ -10,6 +10,6 @@ public :
 	virtual void OnOutOfCamera();
 	void Init(Vec2 pos, float speed);
 	virtual void Active();
-	static Item* Item::Create(const std::string& filename);
+	static Item* Create(const std::string& filename);
 };
 

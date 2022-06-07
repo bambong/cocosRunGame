@@ -158,12 +158,30 @@ set(GAME_SRC
         ${PLATFORM_SPECIFIC_SRC}
         Classes/AppDelegate.cpp
         Classes/HelloWorldScene.cpp
+        Classes/BackGroundController.cpp
+        Classes/ContactAbleObject.cpp
+        Classes/CutScene.cpp
+        Classes/Item.cpp
+        Classes/MainMenuScene.cpp
+        Classes/ObjectManager.cpp
+        Classes/Obstacle.cpp
+        Classes/Platform.cpp
+        Classes/Player.cpp
         )
 
 set(GAME_HEADERS
         ${PLATFORM_SPECIFIC_HEADERS}
         Classes/AppDelegate.h
         Classes/HelloWorldScene.h
+        Classes/BackGroundController.h
+        Classes/ContactAbleObject.h
+        Classes/CutScene.h
+        Classes/Item.h
+        Classes/MainMenuScene.h
+        Classes/ObjectManager.h
+        Classes/Obstacle.h
+        Classes/Platform.h
+        Classes/Player.h
         )
 
 # add the executable
